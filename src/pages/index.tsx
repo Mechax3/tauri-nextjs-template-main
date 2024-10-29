@@ -49,7 +49,7 @@ const Login = () => {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="Usuario" 
+                placeholder="Correo Electrónico" 
                 className="w-full p-3 border rounded-full placeholder-gray-500 text-gray-700 focus:outline-none focus:border-gray-500"
               />
             </div>
