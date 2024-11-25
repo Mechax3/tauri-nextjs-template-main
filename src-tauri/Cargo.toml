@@ -19,9 +19,15 @@ serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 tauri = { version = "1.8", features = ["api-all"] }
 mysql = "*"
+actix-web = "4.0"
+sqlx = { version = "0.5", features = ["mysql", "runtime-actix-native-tls"] }
 bcrypt = "0.11"
 regex = "1.5"  # Agrega regex para validaciones
-
+dotenv = "0.15"
+actix-cors = "0.6"
+log = "0.4"
+env_logger = "0.9"
+reqwest = { version = "0.11", features = ["json"] }
 
 [features]
 # by default Tauri runs in production mode

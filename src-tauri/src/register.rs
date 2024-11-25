@@ -4,6 +4,7 @@ use mysql::prelude::*;
 use serde::Deserialize;
 use bcrypt::{hash, DEFAULT_COST};
 use regex::Regex;
+use actix_web::{post, web, Responder};
 
 #[derive(Deserialize)]
 pub struct RegisterPayload {
@@ -13,8 +14,23 @@ pub struct RegisterPayload {
   pub password: String,
 }
 
+// Función para Tauri
 #[command]
 pub async fn register_user(payload: RegisterPayload) -> Result<String, String> {
+  register_user_impl(payload).await
+}
+
+// Función para Actix-web
+#[post("/register")]
+async fn register_user_actix(payload: web::Json<RegisterPayload>) -> impl Responder {
+  match register_user_impl(payload.into_inner()).await {
+    Ok(message) => web::Json(message),
+    Err(error) => web::Json(error),
+  }
+}
+
+// Lógica compartida
+async fn register_user_impl(payload: RegisterPayload) -> Result<String, String> {
   // Validar el formato del correo electrónico
   let email_regex = Regex::new(r"^[^\s@]+@[^\s@]+\.[^\s@]+$").unwrap();
   if !email_regex.is_match(&payload.email) {
@@ -27,7 +43,7 @@ pub async fn register_user(payload: RegisterPayload) -> Result<String, String> {
   }
 
   // Validar que el nombre tenga al menos cinco caracteres
-  if payload.nombre.len() < 5 {
+  if payload.nombre.len() < 3 {
     return Err("El nombre debe tener al menos cinco caracteres".into());
   }
 

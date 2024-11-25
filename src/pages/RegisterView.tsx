@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from 'next/router';
 import { invoke } from '@tauri-apps/api/tauri';
+import Image from 'next/image';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -22,21 +23,21 @@ const Register = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const response = await invoke('register_user', { payload: formData });
       alert(response);
-      router.push('/ventas'); // Redirigir a la página principal
+      router.push('/'); // Redirigir a la página de inicio de sesión
     } catch (error) {
       alert(`Error: ${error}`);
     }
   };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-200 to-gray-400">
       <div className="w-full max-w-md bg-white border rounded-lg shadow-2xl">
         {/* Header */}
         <div className="bg-white p-4 flex items-center justify-center rounded-t-lg shadow-md">
-          <img src="/logo.png" alt="Logo" className="h-10 w-auto object-contain" />
+          <Image src="/logo.png" alt="Logo" width={40} height={40} className="h-10 w-auto object-contain" />
         </div>
 
         {/* Form */}

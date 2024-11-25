@@ -2,6 +2,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from 'next/router';
 import { invoke } from '@tauri-apps/api/tauri';
+import Image from 'next/image';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -22,9 +23,11 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await invoke('login_user', { payload: formData });
-      alert(response);
-      router.push('/ventas'); // Redirigir a la página principal
+      const response = await invoke<string>('login_user', { payload: formData });
+      const userSession = JSON.parse(response);
+      localStorage.setItem('userSession', JSON.stringify(userSession));
+      alert('Inicio de sesión exitoso');
+      router.push('/VentaView'); // Redirigir a la página principal
     } catch (error) {
       alert(`Error: ${error}`);
     }
@@ -35,7 +38,7 @@ const Login = () => {
       <div className="w-full max-w-md bg-white border rounded-lg shadow-2xl">
         {/* Header */}
         <div className="bg-white p-4 flex items-center justify-center rounded-t-lg shadow-md">
-          <img src="/logo.png" alt="Logo" className="h-10 w-auto object-contain" />
+          <Image src="/logo.png" alt="Logo" width={40} height={40} className="h-10 w-auto object-contain" />
         </div>
         
         {/* Form */}
@@ -65,8 +68,7 @@ const Login = () => {
             </div>
             <div className="flex justify-between items-center mt-6">
               {/* Link to Register */}
-              <Link href="/register" className="text-sm text-gray-700 underline">Registrarse
-              </Link>
+              <Link href="/RegisterView" className="text-sm text-gray-700 underline">Registrarse</Link>
               <button 
                 type="submit" 
                 className="px-6 py-2 text-white bg-gray-700 rounded-full hover:bg-gray-800"

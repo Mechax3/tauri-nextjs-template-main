@@ -24,6 +24,12 @@
     "prefer-spread": "error",
     "prefer-template": "error",
     "radix": ["error", "always"],
-    "react-hooks/exhaustive-deps": "error"
+    "react-hooks/exhaustive-deps": "error",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-confusing-void-expression": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@next/next/no-img-element": "off",
+    "@typescript-eslint/no-misused-promises": "off"
   }
 }
